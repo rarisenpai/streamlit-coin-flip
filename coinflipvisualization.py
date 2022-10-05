@@ -94,7 +94,7 @@ if add_play_button:
             df.index += 1
             difference.dataframe(df.fillna(''),use_container_width=True)
             df = pd.DataFrame(columns_data)
-            df.index += [i for i in streak_no]
+            df.index = [i for i in streak_no]
             column_position.dataframe(df.fillna(''),use_container_width=True)
             df = pd.DataFrame(columns_avg_distance)
             df.index = [i for i in streak_no]
