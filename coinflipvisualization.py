@@ -2,7 +2,6 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import time
-
 st.title("Coin flip visualization app")
 st.sidebar.header("App settings")
 # Add a selectbox to the sidebar
@@ -25,7 +24,12 @@ if add_play_button:
     head_counter = st.empty()
     st.header('Data arranged in columns')
     sort_into_streaks = st.empty()
-    st.header('Column positions based on streak number')
+    st.header('Column positions and difference for streak number 1')
+    st.write('column position')
+    column_position_streak1 = st.empty()
+    st.write('differences')
+    difference = st.empty()
+    st.header('Column positions for all streaks')
     column_position = st.empty()
     st.header('Average distance between the streaks')
     average_distance = st.empty()
@@ -53,17 +57,16 @@ if add_play_button:
                 else:
                     streak.append(roll)
                     sorted_flips.append(streak)
-        df = pd.DataFrame(columns= [i + 1 for i in range(len(sorted_flips))])
-        for i in range(len(sorted_flips)):
-            this_column = df.columns[i]
-            df[this_column] = [''.join(sorted_flips[i])]
-        sort_into_streaks.table(df)
+        df = pd.DataFrame(sorted_flips)
+        df.index += 1
+        sort_into_streaks.dataframe(df.fillna(''),use_container_width=True)
         def live():
             streaks = [len(i) for i in sorted_flips]
             no_of_times = []
             streak_no = []
             columns_data = []
             columns_avg_distance = []
+            differences = []
             for streak in range(1, max(streaks)+1):
                 if streak in streaks:
                     streak_no.append(streak)
@@ -76,6 +79,7 @@ if add_play_button:
                     x = int(len(columns))
                     diff = np.diff(columns)
                     absolute = abs(diff)
+                    differences.append(absolute)
                     sum_of_arr = np.sum(absolute)
                     if x <= 2:
                         avg_distance = sum_of_arr
@@ -83,20 +87,22 @@ if add_play_button:
                         avg_distance = sum_of_arr/x
                     y = round(avg_distance, 2)
                     columns_avg_distance.append(y)
-            df = pd.DataFrame(columns=[i for i in streak_no])
-            for i in range(len(columns_data)):
-                this_column = df.columns[i]
-                df[this_column] = [('  '.join(columns_data[i]))]
-            column_position.table(df)
-            df = pd.DataFrame(columns=[i for i in streak_no])
-            for i in range(len(columns_avg_distance)):
-                this_column = df.columns[i]
-                df[this_column] = [(columns_avg_distance[i])]
-            average_distance.table(df)
+            df = pd.DataFrame(columns_data[0])
+            df.index += 1
+            column_position_streak1.dataframe(df.fillna(''),use_container_width=True)
+            df = pd.DataFrame(differences[0])
+            df.index += 1
+            difference.dataframe(df.fillna(''),use_container_width=True)
+            df = pd.DataFrame(columns_data)
+            df.index += [i for i in streak_no]
+            column_position.dataframe(df.fillna(''),use_container_width=True)
+            df = pd.DataFrame(columns_avg_distance)
+            df.index = [i for i in streak_no]
+            average_distance.dataframe(df,use_container_width=True)
             df = pd.DataFrame(columns=[i for i in streak_no])
             for i in range(len(columns_data)):
                 this_column = df.columns[i]
                 df[this_column] = [len(columns_data[i])]
-            streak_number.table(df)
+            streak_number.dataframe(df,use_container_width=True)
         live ()
         time.sleep(add_selectbox * 0.25)
