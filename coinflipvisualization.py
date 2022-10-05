@@ -13,10 +13,9 @@ add_selectbox = st.sidebar.selectbox(
 )
 
 # Add a slider to the sidebar:
-add_slider = st.sidebar.slider(
-    'Select number of coin flips',
-    0, 100000,
-)
+add_slider = int(st.sidebar.text_input(
+    'Select number of coin flips'
+))
 # add a play button to the sidebar
 add_play_button = st.sidebar.button('Play')
 if add_play_button:
