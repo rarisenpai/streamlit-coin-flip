@@ -13,12 +13,13 @@ add_selectbox = st.sidebar.selectbox(
 )
 
 # Add a slider to the sidebar:
-add_slider = int(st.sidebar.text_input(
+add_data = st.sidebar.text_input(
     'Select number of coin flips'
-))
+)
 # add a play button to the sidebar
 add_play_button = st.sidebar.button('Play')
 if add_play_button:
+    add_slider = int(add_data)
     latest_counter = st.empty()
     latest_iteration = st.empty()
     head_counter = st.empty()
@@ -99,8 +100,3 @@ if add_play_button:
             streak_number.table(df)
         live ()
         time.sleep(add_selectbox * 0.25)
-
-
-
-
-
