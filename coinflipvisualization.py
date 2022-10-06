@@ -11,10 +11,6 @@ add_selectbox = st.sidebar.selectbox(
     (1,2,3,4)
 )
 
-# Add a slider to the sidebar:
-add_data = st.sidebar.text_input(
-    'Select number of coin flips'
-)
 add_pause = st.sidebar.text_input(
     'Select number to pause at'
 )
@@ -26,7 +22,6 @@ add_time = st.sidebar.slider(
 add_play_button = st.sidebar.button('Play')
 if add_play_button:
     pause = int(add_pause)
-    add_slider = int(add_data)
     latest_counter = st.empty()
     latest_iteration = st.empty()
     head_counter = st.empty()
@@ -44,13 +39,15 @@ if add_play_button:
     st.header('Number of streaks')
     streak_number = st.empty()
     rolls = []
-    for i in range(add_slider):
+    i = 0
+    while True:
+        i+=1
         letters = ['H','T']
         x = np.random.choice(letters)
         rolls.append(x)
         heads = rolls.count('H')
         length = len(rolls)
-        latest_counter.text(f'Coin Flip # {i + 1}')
+        latest_counter.text(f'Coin Flip # {i}')
         latest_iteration.text(f'{x}')
         head_counter.text(f'Heads = {heads}/{length} = {heads/length}')
         sorted_flips = []
@@ -117,3 +114,4 @@ if add_play_button:
             pause += int(add_pause)
             time.sleep(add_time)
         time.sleep(add_selectbox * 0.25)
+
