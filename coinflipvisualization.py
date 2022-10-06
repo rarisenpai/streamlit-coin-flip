@@ -110,7 +110,7 @@ if add_play_button:
                 df[this_column] = [len(columns_data[i])]
             streak_number.dataframe(df,use_container_width=True)
         live ()
-        if i == (pause - 1):
+        if i == (pause):
             pause += int(add_pause)
             time.sleep(add_time)
         time.sleep(add_selectbox * 0.25)
